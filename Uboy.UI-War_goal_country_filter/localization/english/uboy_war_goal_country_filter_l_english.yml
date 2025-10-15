@@ -5,4 +5,5 @@
  UBOY_CLEAR_FILTER: "Clear"
  UBOY_CLEAR_COUNTRY_FILTER: "Clear country filter"
  UBOY_FILTERING_BY: "Filtering by:"
- UBOY_TARGET_SIDE_COUNTRIES_NOTE: "Showing all target side countries in this diplomatic play"
+ UBOY_TARGET_SIDE_COUNTRIES_NOTE: "Showing all enemy side (target side) countries in this diplomatic play"
+ UBOY_INITIATOR_SIDE_COUNTRIES_NOTE: "Showing all enemy side (initiator side) countries in this diplomatic play"

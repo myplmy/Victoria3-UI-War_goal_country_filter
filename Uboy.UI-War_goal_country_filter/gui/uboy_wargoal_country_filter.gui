@@ -6,7 +6,68 @@
         spacing = 5
         parentanchor = hcenter
         visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
-        
+
+
+        #### 디버깅: 플레이어 위치 확인 (테스트 후 삭제 가능)
+        #flowcontainer ={
+        #    direction = vertical
+        #    spacing = 2
+        #    parentanchor = hcenter
+        #
+        #
+        #    textbox = {
+        #        visible = yes
+        #        raw_text = "DEBUG: HasSelectedWarGoalType=[AddWarGoalPanel.HasSelectedWarGoalType]"
+        #        autoresize = yes
+        #        align = center|nobaseline
+        #        parentanchor = hcenter
+        #        default_format = "#weak"
+        #        margin_bottom = 5
+        #    }
+        #
+        #    textbox = {
+        #        visible = yes
+        #        raw_text = "DEBUG: uboy_show_country_filters=[GetVariableSystem.Exists('uboy_show_country_filters')]"
+        #        autoresize = yes
+        #        align = center|nobaseline
+        #        parentanchor = hcenter
+        #        default_format = "#weak"
+        #        margin_bottom = 5
+        #    }
+        #
+        #    textbox = {
+        #        visible = yes
+        #        raw_text = "DEBUG: Initiator=[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)] Target=[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+        #        autoresize = yes
+        #        align = center|nobaseline
+        #        parentanchor = hcenter
+        #        default_format = "#weak"
+        #        margin_bottom = 5
+        #    }
+        #
+        #    textbox = {
+        #        visible = yes
+        #        raw_text = "DEBUG: DataModelHasItem=[DataModelHasItems(AddWarGoalPanel.AccessDiplomaticPlay.AccessTargetSideCountries)]"
+        #        autoresize = yes
+        #        align = center|nobaseline
+        #        parentanchor = hcenter
+        #        default_format = "#weak"
+        #        margin_bottom = 5
+        #    }
+        #
+        #
+        #    textbox = {
+        #        visible = yes
+        #        raw_text = "DEBUG: wg_filter_country_set=[GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet]"
+        #        autoresize = yes
+        #        align = center|nobaseline
+        #        parentanchor = hcenter
+        #        default_format = "#weak"
+        #        margin_bottom = 5
+        #    }
+        #}
+        #### 디버깅: 플레이어 위치 확인 (테스트 후 삭제 가능) 끝
+
         # 필터 버튼 그룹
         flowcontainer = {
             direction = horizontal
@@ -69,14 +130,14 @@
                 default_format = "#variable"
             }
             
-            tiny_flag_no_interact = {
-                datacontext = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry]"
-                parentanchor = vcenter
-                
-                blockoverride "tooltip" {
-                    tooltip = "[Country.GetName]"
-                }
-            }
+            #tiny_flag_no_interact = {
+            #    datacontext = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry]"
+            #    parentanchor = vcenter
+            #    
+            #    blockoverride "tooltip" {
+            #        tooltip = "[Country.GetName]"
+            #    }
+            #}
             
             textbox = {
                 raw_text = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.GetName]"
@@ -88,9 +149,9 @@
             }
         }
         
-        # 국기 그리드 (필터 버튼 클릭 시 표시) - 타겟 측 모든 국가
+        # 국기 그리드 컨테이너 (필터 버튼 클릭 시 표시)
         flowcontainer = {
-            visible = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
+            visible = "[And(GetVariableSystem.Exists('uboy_show_country_filters'), AddWarGoalPanel.HasSelectedWarGoalType)]"
             direction = vertical
             spacing = 5
             parentanchor = hcenter
@@ -111,23 +172,55 @@
                 margin_bottom = 5
             }
             
-            # 타겟 측 국가들 - 중복 없이 모든 국가 표시
+            # 플레이어가 개시자(공격자) 측일 때 - 타겟 측 국가 표시
             dynamicgridbox = {
+                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
                 datamodel = "[AddWarGoalPanel.AccessDiplomaticPlay.AccessTargetSideCountries]"
-                maxhorizontalslots = 36
-                maxverticalslots = 3
-                datamodel_wrap = 3
-                setitemsizefromcell = yes
+                #maxhorizontalslots = 3
+                #maxverticalslots = 36
+                datamodel_wrap = 12
+                flipdirection = yes
                 
                 item = {
                     uboy_country_filter_flag = {
+                        visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
                     }
                 }
             }
             
-            # 안내 문구
+            # 플레이어가 타겟(방어자) 측일 때 - 개시자 측 국가 표시
+            dynamicgridbox = {
+                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+                datamodel = "[AddWarGoalPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries]"
+                #maxhorizontalslots = 3
+                #maxverticalslots = 36
+                datamodel_wrap = 12
+                flipdirection = yes
+                
+                item = {
+                    uboy_country_filter_flag = {
+                        visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+                    }
+                }
+            }
+            
+            # 안내 문구 - 플레이어가 개시자 측일 때
             textbox = {
+                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
                 text = "UBOY_TARGET_SIDE_COUNTRIES_NOTE"
+                autoresize = yes
+                align = center|nobaseline
+                parentanchor = hcenter
+                default_format = "#weak"
+                max_width = 500
+                multiline = yes
+                margin_top = 5
+            }
+            
+            # 안내 문구 - 플레이어가 타겟 측일 때
+            textbox = {
+                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+                text = "UBOY_INITIATOR_SIDE_COUNTRIES_NOTE"
                 autoresize = yes
                 align = center|nobaseline
                 parentanchor = hcenter
@@ -138,7 +231,7 @@
             }
         }
     }
-    
+
     # 필터용 국기 버튼
     type uboy_country_filter_flag = button {
         size = { 32 24 }

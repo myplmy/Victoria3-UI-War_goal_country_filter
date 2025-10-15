@@ -12,6 +12,10 @@
 			back_button_large = {
 				position = { 8 30 }
 				onclick = "[AddWarGoalPanel.ClearSelectedWarGoalType]"
+                ### uboy_wargoal_country_filter
+                onclick = "[GetVariableSystem.Clear('uboy_show_country_filters')]"
+                onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                ### uboy_wargoal_country_filter end
 				input_action = "back"
 				visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
 			}
@@ -565,8 +569,12 @@
 
 	### ADD WARGOAL TYPE
 	type add_wargoal_type_item = button {
-		onclick = "[AddWarGoalPanel.SetSelectedWarGoalType(WarGoalType.Self)]"
-	    tooltip = "[WarGoalType.GetDesc]"
+        onclick = "[AddWarGoalPanel.SetSelectedWarGoalType(WarGoalType.Self)]"
+        ### uboy_wargoal_country_filter
+        onclick = "[GetVariableSystem.Clear('uboy_show_country_filters')]"  # 이 줄 추가
+        onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"  # 이 줄 추가
+        ### uboy_wargoal_country_filter end
+        tooltip = "[WarGoalType.GetDesc]"
 		using = default_button
 
 		container = {
