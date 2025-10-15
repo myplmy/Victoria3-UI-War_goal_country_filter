@@ -72,11 +72,13 @@
         flowcontainer = {
             direction = horizontal
             spacing = 10
+            margin_top = 5
+            margin_bottom = 5
             parentanchor = hcenter
             
             # 메인 필터 토글 버튼
             button = {
-                size = { 150 30 }
+                size = { 150 50 }
                 using = default_button
                 onclick = "[GetVariableSystem.Toggle('uboy_show_country_filters')]"
                 down = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
@@ -99,7 +101,7 @@
             # Clear 필터 버튼
             button = {
                 visible = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet]"
-                size = { 80 30 }
+                size = { 80 50 }
                 using = default_button
                 onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
                 tooltip = "UBOY_CLEAR_COUNTRY_FILTER"
@@ -176,13 +178,11 @@
             dynamicgridbox = {
                 visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
                 datamodel = "[AddWarGoalPanel.AccessDiplomaticPlay.AccessTargetSideCountries]"
-                #maxhorizontalslots = 3
-                #maxverticalslots = 36
-                datamodel_wrap = 12
+                datamodel_wrap = 3
                 flipdirection = yes
                 
                 item = {
-                    uboy_country_filter_flag = {
+                    uboy_country_filter_grid_button = {
                         visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
                     }
                 }
@@ -192,43 +192,70 @@
             dynamicgridbox = {
                 visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
                 datamodel = "[AddWarGoalPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries]"
-                #maxhorizontalslots = 3
-                #maxverticalslots = 36
-                datamodel_wrap = 12
+                datamodel_wrap = 3
                 flipdirection = yes
                 
                 item = {
-                    uboy_country_filter_flag = {
+                    uboy_country_filter_grid_button = {
                         visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
                     }
                 }
             }
             
-            # 안내 문구 - 플레이어가 개시자 측일 때
-            textbox = {
-                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
-                text = "UBOY_TARGET_SIDE_COUNTRIES_NOTE"
-                autoresize = yes
-                align = center|nobaseline
-                parentanchor = hcenter
-                default_format = "#weak"
-                max_width = 500
-                multiline = yes
-                margin_top = 5
-            }
-            
-            # 안내 문구 - 플레이어가 타겟 측일 때
-            textbox = {
-                visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
-                text = "UBOY_INITIATOR_SIDE_COUNTRIES_NOTE"
-                autoresize = yes
-                align = center|nobaseline
-                parentanchor = hcenter
-                default_format = "#weak"
-                max_width = 500
-                multiline = yes
-                margin_top = 5
-            }
+            ## 안내 문구 - 플레이어가 개시자 측일 때
+            #textbox = {
+            #    visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)]"
+            #    text = "UBOY_TARGET_SIDE_COUNTRIES_NOTE"
+            #    autoresize = yes
+            #    align = center|nobaseline
+            #    parentanchor = hcenter
+            #    default_format = "#weak"
+            #    max_width = 500
+            #    multiline = yes
+            #    margin_top = 5
+            #}
+            #
+            ## 안내 문구 - 플레이어가 타겟 측일 때
+            #textbox = {
+            #    visible = "[AddWarGoalPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+            #    text = "UBOY_INITIATOR_SIDE_COUNTRIES_NOTE"
+            #    autoresize = yes
+            #    align = center|nobaseline
+            #    parentanchor = hcenter
+            #    default_format = "#weak"
+            #    max_width = 500
+            #    multiline = yes
+            #    margin_top = 5
+            #}
+        }
+    }
+
+    # 필터용 버튼
+    type uboy_country_filter_grid_button = button {
+        size = { 180 40 }
+        using = default_button
+        
+        onclick = "[GetScriptedGui('uboy_wg_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
+        
+        # 선택된 국가 강조
+        down = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)]"
+        
+        tooltipwidget = {
+            FancyTooltip_Country = {}
+        }
+        
+        onmousehierarchyenter = "[AccessHighlightManager.HighlightCountry(Country.Self)]"
+        onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+        
+        textbox = {
+            raw_text = "[Country.GetName]"
+            #autoresize = yes
+            align = left|nobaseline
+            parentanchor = vcenter
+            minimumsize = { 170 -1 }
+            maximumsize = { 170 -1 }
+            elide = right
+            margin_left = 10
         }
     }
 
