@@ -46,12 +46,13 @@
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
 								#visible = "[Not(WarGoal.HoldsArticle)]"
-                                visible = "[And(
+                                visible = "[And3(
                                     Not(WarGoal.HoldsArticle),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                         ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                    )
+                                    ),
+                                    IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
                                 )]"
                                 ### uboy_wargoal_country_filter END
 							}
@@ -60,12 +61,13 @@
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
 								#visible = "[And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput))]"
-                                visible = "[And(
+                                visible = "[And3(
                                     And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput)),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                         ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                    )
+                                    ),
+                                    IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
                                 )]"
                                 ### uboy_wargoal_country_filter END
 
@@ -113,13 +115,14 @@
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
 								#visible = "[And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput)]"
-                                visible = "[And(
-                                        And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput)),
+                                visible = "[And3(
+                                        And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput),
                                         Or(
                                             Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                             ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                        )
-                                )]"
+                                        ),
+                                        IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
+                                    )]"
                                 ### uboy_wargoal_country_filter END
 
 								blockoverride "war_goal_tooltip" {

@@ -111,16 +111,17 @@
                 margin_bottom = 5
             }
             
-            # 국기 그리드
+            # 국기 그리드 - 중복 표시를 허용하되 더 많이 보이도록 개선
             dynamicgridbox = {
                 datamodel = "[AddWarGoalPanel.AccessShownWarGoals]"
-                maxhorizontalslots = 8
-                maxverticalslots = 5
+                maxhorizontalslots = 10
+                maxverticalslots = 8
                 setitemsizefromcell = yes
                 
                 item = {
                     container = {
                         # Holder 국기 (일반 전쟁 목표)
+                        # 중복 표시되지만 각 전쟁 목표와 연결되어 있음
                         uboy_country_filter_flag = {
                             visible = "[Not(WarGoal.HoldsArticle)]"
                             datacontext = "[WarGoal.GetHolder]"
@@ -133,6 +134,18 @@
                         }
                     }
                 }
+            }
+            
+            # 안내 문구
+            textbox = {
+                text = "UBOY_COUNTRY_FILTER_NOTE"
+                autoresize = yes
+                align = center|nobaseline
+                parentanchor = hcenter
+                default_format = "#weak"
+                margin_top = 5
+                max_width = 500
+                multiline = yes
             }
         }
     }

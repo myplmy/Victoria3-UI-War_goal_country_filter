@@ -5,3 +5,5 @@
  UBOY_CLEAR_FILTER: "Clear"
  UBOY_CLEAR_COUNTRY_FILTER: "Clear country filter"
  UBOY_FILTERING_BY: "Filtering by:"
+ UBOY_CURRENT_WARGOAL_TYPE_COUNTRIES: "Countries for current war goal type:"
+ UBOY_OTHER_WARGOAL_TYPE_NOTE: "To see countries from other war goal types, change the war goal type selection"
