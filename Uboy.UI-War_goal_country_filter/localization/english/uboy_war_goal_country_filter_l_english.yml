@@ -1,9 +1,8 @@
 ﻿l_english:
  UBOY_FILTER_BY_COUNTRY: "Filter by Country"
  UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP: "Click to show/hide country filter"
- UBOY_SELECT_COUNTRY_HEADER: "Select Country to Filter"
+ UBOY_SELECT_COUNTRY_HEADER: "Select Target Country to Filter"
  UBOY_CLEAR_FILTER: "Clear"
  UBOY_CLEAR_COUNTRY_FILTER: "Clear country filter"
  UBOY_FILTERING_BY: "Filtering by:"
- UBOY_CURRENT_WARGOAL_TYPE_COUNTRIES: "Countries for current war goal type:"
- UBOY_OTHER_WARGOAL_TYPE_NOTE: "To see countries from other war goal types, change the war goal type selection"
+ UBOY_TARGET_SIDE_COUNTRIES_NOTE: "Showing all target side countries in this diplomatic play"

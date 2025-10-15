@@ -88,7 +88,7 @@
             }
         }
         
-        # 국기 그리드 (필터 버튼 클릭 시 표시)
+        # 국기 그리드 (필터 버튼 클릭 시 표시) - 타겟 측 모든 국가
         flowcontainer = {
             visible = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
             direction = vertical
@@ -111,53 +111,42 @@
                 margin_bottom = 5
             }
             
-            # 국기 그리드 - 중복 표시를 허용하되 더 많이 보이도록 개선
+            # 타겟 측 국가들 - 중복 없이 모든 국가 표시
             dynamicgridbox = {
-                datamodel = "[AddWarGoalPanel.AccessShownWarGoals]"
-                maxhorizontalslots = 10
-                maxverticalslots = 8
+                datamodel = "[AddWarGoalPanel.AccessDiplomaticPlay.AccessTargetSideCountries]"
+                maxhorizontalslots = 36
+                maxverticalslots = 3
+                datamodel_wrap = 3
                 setitemsizefromcell = yes
                 
                 item = {
-                    container = {
-                        # Holder 국기 (일반 전쟁 목표)
-                        # 중복 표시되지만 각 전쟁 목표와 연결되어 있음
-                        uboy_country_filter_flag = {
-                            visible = "[Not(WarGoal.HoldsArticle)]"
-                            datacontext = "[WarGoal.GetHolder]"
-                        }
-                        
-                        # Target 국기 (Article 타입 전쟁 목표)
-                        uboy_country_filter_flag = {
-                            visible = "[WarGoal.HoldsArticle]"
-                            datacontext = "[WarGoal.GetTarget]"
-                        }
+                    uboy_country_filter_flag = {
                     }
                 }
             }
             
             # 안내 문구
             textbox = {
-                text = "UBOY_COUNTRY_FILTER_NOTE"
+                text = "UBOY_TARGET_SIDE_COUNTRIES_NOTE"
                 autoresize = yes
                 align = center|nobaseline
                 parentanchor = hcenter
                 default_format = "#weak"
-                margin_top = 5
                 max_width = 500
                 multiline = yes
+                margin_top = 5
             }
         }
     }
     
     # 필터용 국기 버튼
     type uboy_country_filter_flag = button {
-        size = { 35 25 }
+        size = { 32 24 }
         using = default_button
         
         onclick = "[GetScriptedGui('uboy_wg_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
         
-        # 선택된 국가 강조 - Company filter 패턴 사용
+        # 선택된 국가 강조
         down = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)]"
         
         tooltipwidget = {

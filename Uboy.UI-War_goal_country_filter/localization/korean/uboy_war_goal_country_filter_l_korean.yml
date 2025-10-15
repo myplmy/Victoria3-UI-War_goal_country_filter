@@ -1,8 +1,8 @@
 ﻿l_korean:
  UBOY_FILTER_BY_COUNTRY: "국가별 필터"
  UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP: "국가 필터 표시/숨기기"
- UBOY_SELECT_COUNTRY_HEADER: "필터링할 국가 선택"
+ UBOY_SELECT_COUNTRY_HEADER: "필터링할 타겟 국가 선택"
  UBOY_CLEAR_FILTER: "초기화"
  UBOY_CLEAR_COUNTRY_FILTER: "국가 필터 초기화"
  UBOY_FILTERING_BY: "필터링 중:"
- UBOY_COUNTRY_FILTER_NOTE: "참고: 전쟁 목표 수에 따라 국가가 여러 번 표시될 수 있습니다"
+ UBOY_TARGET_SIDE_COUNTRIES_NOTE: "이 외교 분쟁의 타겟 측 모든 국가 표시"
