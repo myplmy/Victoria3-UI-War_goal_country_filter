@@ -1,0 +1,44 @@
+﻿l_russian:
+# Filter buttons and interface
+COM_FILTER_BY_BUILDING_TYPE: "Фильтр по типу сооружения"
+COM_TOGGLE_BUILDING_FILTER_TOOLTIP: "Показать/скрыть фильтр по типу сооружения"
+COM_SELECT_BUILDING_TYPE_HEADER: "Выберите тип сооружения для фильтрации"
+COM_CLEAR_FILTER: "Сбросить фильтр"
+COM_SHOWING_COMPANIES_FOR_BUILDING: "Отображаются компании, которые могут владеть: [BuildingType.GetName]"
+
+# Company charter related
+COM_COMPANY_CAN_OWN_THIS_BUILDING_TYPE: "Устав этой компании позволяет владеть данным типом сооружения"
+COM_COMPANY_CANNOT_OWN_THIS_BUILDING_TYPE: "Устав этой компании не позволяет владеть данным типом сооружения"
+
+# Filter status messages
+COM_NO_COMPANIES_FOR_BUILDING_TYPE: "Нет компаний, которые могут владеть этим типом сооружения"
+COM_FILTERED_COMPANIES_COUNT: "Отображается компаний: [GetDataModelSize(AccessPlayer.GetCompanies)]"
+
+# Additional tooltips
+COM_CLICK_TO_FILTER_BY_BUILDING: "Нажмите для фильтрации компаний по этому типу сооружения"
+COM_BUILDING_TYPE_FILTER_ACTIVE: "Фильтр активен: [BuildingType.GetName]"
+
+#ESTABLISH_COMPANY: "Учредить"
+COM_BASE_INDUSTRIES: "(базовая)"
+COM_POTENTIAL_INDUSTRIES: "(потенциальная)"
+
+COM_FILTER_BUTTON_BASE: "Базовая"
+COM_FILTER_BUTTON_POTENTIAL: "Потенциальная"
+
+COM_FILTER_BUTTON_BASE_TOOLTIP: "Базовая промышленность"
+COM_FILTER_BUTTON_POTENTIAL_TOOLTIP: "Потенциальная промышленность"
+
+PLANTATIONS: "Плантации"
+MINE_BUILDING: "Горнодобыча"
+RESOURCE_BUILDING: "Ресурсы"
+LIGHT_INDUSTRY: "Лёгкая промышленность"
+HEAVY_INDUSTRY: "Тяжёлая промышленность"
+INFRA_STRUCTURE_ETC: "Инфраструктура и прочее"
+
+COM_FILTER_FLAVORED: "Только исторические компании"
+COM_FILTER_FLAVORED_TOOLTIP: "Показывать только исторические компании"
+COM_FILTER_PRESTIGE: "Люксовые товары"
+COM_FILTER_PRESTIGE_TOOLTIP: "Показывать только компании, способные производить люксовые товары"
+COM_FILTER_FLAVORED_DESC: "Показывать только исторические компании (flavored_company = yes)"
+COM_FILTER_PRESTIGE_DESC: "Показывать только компании, способные производить люксовые товары (определено possible_prestige_goods)"
+COM_FILTER_BOTH_ACTIVE: "Активированы оба фильтра: исторические компании и люксовые товары"

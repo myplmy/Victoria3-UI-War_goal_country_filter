@@ -1,0 +1,185 @@
+﻿types uboy_wargoal_country_filter_types
+{
+    # 메인 필터 컨테이너
+    type uboy_wargoal_country_filter = flowcontainer {
+        direction = vertical
+        spacing = 5
+        parentanchor = hcenter
+        
+        # 필터 버튼 그룹
+        flowcontainer {
+            direction = horizontal
+            spacing = 10
+            parentanchor = hcenter
+            
+            # 메인 필터 토글 버튼
+            button = {
+                size = { 150 30 }
+                using = default_button
+                onclick = "[GetVariableSystem.Toggle('uboy_show_country_filters')]"
+                down = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
+                visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
+                tooltip = "UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP"
+                
+                textbox = {
+                    text = "UBOY_FILTER_BY_COUNTRY"
+                    autoresize = yes
+                    align = center|nobaseline
+                    parentanchor = center
+                    default_format = "#high"
+                }
+                
+                background = {
+                    visible = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
+                    using = entry_bg
+                }
+            }
+            
+            # Clear 필터 버튼
+            button = {
+                visible = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet]"
+                size = { 80 30 }
+                using = default_button
+                onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                tooltip = "UBOY_CLEAR_COUNTRY_FILTER"
+                
+                textbox = {
+                    text = "UBOY_CLEAR_FILTER"
+                    autoresize = yes
+                    align = center|nobaseline
+                    parentanchor = center
+                    default_format = "#high"
+                }
+            }
+        }
+        
+        # 필터 상태 표시 (선택된 국가)
+        flowcontainer = {
+            visible = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet]"
+            direction = horizontal
+            spacing = 5
+            parentanchor = hcenter
+            margin = { 5 5 }
+            
+            textbox = {
+                text = "UBOY_FILTERING_BY"
+                autoresize = yes
+                align = left|nobaseline
+                parentanchor = vcenter
+                default_format = "#variable"
+            }
+            
+            tiny_flag_no_interact = {
+                datacontext = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country]"
+                parentanchor = vcenter
+                
+                blockoverride "tooltip" {
+                    tooltip = "[Country.GetName]"
+                }
+            }
+            
+            textbox = {
+                raw_text = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.GetName]"
+                autoresize = yes
+                align = left|nobaseline
+                parentanchor = vcenter
+                maximumsize = { 200 -1 }
+                elide = right
+            }
+        }
+        
+        # 국기 그리드 (필터 버튼 클릭 시 표시)
+        flowcontainer = {
+            visible = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
+            direction = vertical
+            spacing = 5
+            parentanchor = hcenter
+            margin = { 10 5 }
+            
+            background = {
+                using = default_background
+                margin = { 5 5 }
+            }
+            
+            # 헤더
+            textbox = {
+                text = "UBOY_SELECT_COUNTRY_HEADER"
+                autoresize = yes
+                align = center|nobaseline
+                parentanchor = hcenter
+                default_format = "#title"
+                margin_bottom = 5
+            }
+            
+            # 국기 그리드
+            dynamicgridbox = {
+                datamodel = "[AddWarGoalPanel.AccessShownWarGoals]"
+                maxhorizontalslots = 8
+                maxverticalslots = 5
+                setitemsizefromcell = yes
+                
+                item = {
+                    container = {
+                        # Holder 국기 (일반 전쟁 목표)
+                        uboy_country_filter_flag = {
+                            visible = "[Not(WarGoal.HoldsArticle)]"
+                            datacontext = "[WarGoal.GetHolder]"
+                        }
+                        
+                        # Target 국기 (Article 타입 전쟁 목표)
+                        uboy_country_filter_flag = {
+                            visible = "[WarGoal.HoldsArticle]"
+                            datacontext = "[WarGoal.GetTarget]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    # 필터용 국기 버튼
+    type uboy_country_filter_flag = button {
+        size = { 35 25 }
+        using = default_button
+        
+        onclick = "[GetScriptedGui('uboy_wg_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
+        
+        # 선택된 국가 강조
+        down = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.IsTheSameAs(Country.Self)]"
+        
+        tooltipwidget = {
+            FancyTooltip_Country = {}
+        }
+        
+        onmousehierarchyenter = "[AccessHighlightManager.HighlightCountry(Country.Self)]"
+        onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+        
+        # 국기 아이콘
+        icon = {
+            size = { 27 18 }
+            texture = "[Country.GetFlag.GetSmallFlagTexture]"
+            frame = "[Country.GetFlag.GetSmallFlagFrame]"
+            framesize = "[GetSmallFlagFrameSize]"
+            parentanchor = center
+            using = flag_overlay
+            
+            # 국력 프레임
+            icon = {
+                name = frame
+                texture = "gfx/interface/flag/flag_power_tiny.dds"
+                size = { 33 24 }
+                framesize = { 66 48 }
+                frame = "[Country.GetRankIconIndex]"
+                alwaystransparent = yes
+                parentanchor = center
+            }
+        }
+        
+        # 선택된 국가 배경
+        background = {
+            visible = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.IsTheSameAs(Country.Self)]"
+            using = entry_bg
+            margin = { -2 -2 }
+        }
+    }
+}

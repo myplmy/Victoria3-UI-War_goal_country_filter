@@ -1,0 +1,7 @@
+﻿l_english:
+ UBOY_FILTER_BY_COUNTRY: "Filter by Country"
+ UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP: "Click to show/hide country filter"
+ UBOY_SELECT_COUNTRY_HEADER: "Select Country to Filter"
+ UBOY_CLEAR_FILTER: "Clear"
+ UBOY_CLEAR_COUNTRY_FILTER: "Clear country filter"
+ UBOY_FILTERING_BY: "Filtering by:"
