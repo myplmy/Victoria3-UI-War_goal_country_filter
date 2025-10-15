@@ -157,11 +157,13 @@
             direction = vertical
             spacing = 5
             parentanchor = hcenter
-            margin = { 10 5 }
+            margin = { 10 10 }
+            margin_bottom = 20
             
             background = {
                 using = default_background
                 margin = { 5 5 }
+                margin_left = 10
             }
             
             # 헤더
@@ -232,7 +234,7 @@
 
     # 필터용 버튼
     type uboy_country_filter_grid_button = button {
-        size = { 180 40 }
+        size = { 170 40 }
         using = default_button
         
         onclick = "[GetScriptedGui('uboy_wg_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
@@ -249,11 +251,11 @@
         
         textbox = {
             raw_text = "[Country.GetName]"
-            #autoresize = yes
+            autoresize = yes
             align = left|nobaseline
             parentanchor = vcenter
-            minimumsize = { 170 -1 }
-            maximumsize = { 170 -1 }
+            minimumsize = { 160 -1 }
+            maximumsize = { 160 -1 }
             elide = right
             margin_left = 10
         }
