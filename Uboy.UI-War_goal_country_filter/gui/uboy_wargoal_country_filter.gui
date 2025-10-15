@@ -5,9 +5,10 @@
         direction = vertical
         spacing = 5
         parentanchor = hcenter
+        visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
         
         # 필터 버튼 그룹
-        flowcontainer {
+        flowcontainer = {
             direction = horizontal
             spacing = 10
             parentanchor = hcenter
@@ -18,7 +19,6 @@
                 using = default_button
                 onclick = "[GetVariableSystem.Toggle('uboy_show_country_filters')]"
                 down = "[GetVariableSystem.Exists('uboy_show_country_filters')]"
-                visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
                 tooltip = "UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP"
                 
                 textbox = {
@@ -70,7 +70,7 @@
             }
             
             tiny_flag_no_interact = {
-                datacontext = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country]"
+                datacontext = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry]"
                 parentanchor = vcenter
                 
                 blockoverride "tooltip" {
@@ -79,7 +79,7 @@
             }
             
             textbox = {
-                raw_text = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.GetName]"
+                raw_text = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.GetName]"
                 autoresize = yes
                 align = left|nobaseline
                 parentanchor = vcenter
@@ -144,8 +144,8 @@
         
         onclick = "[GetScriptedGui('uboy_wg_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
         
-        # 선택된 국가 강조
-        down = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.IsTheSameAs(Country.Self)]"
+        # 선택된 국가 강조 - Company filter 패턴 사용
+        down = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)]"
         
         tooltipwidget = {
             FancyTooltip_Country = {}
@@ -177,7 +177,7 @@
         
         # 선택된 국가 배경
         background = {
-            visible = "[GetPlayer.MakeScope.Var('uboy_wg_filter_country').Country.IsTheSameAs(Country.Self)]"
+            visible = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)]"
             using = entry_bg
             margin = { -2 -2 }
         }
