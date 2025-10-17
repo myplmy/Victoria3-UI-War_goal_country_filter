@@ -54,7 +54,10 @@
                                     Not(WarGoal.HoldsArticle),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                        ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                        Or(
+                                            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                        )
                                     ),
                                     IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
                                 )]"
@@ -69,7 +72,10 @@
                                     And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput)),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                        ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                        Or(
+                                            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                        )
                                     ),
                                     IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
                                 )]"
@@ -123,7 +129,10 @@
                                         And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput),
                                         Or(
                                             Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                            Or(
+                                                ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                                ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                            )
                                         ),
                                         IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
                                     )]"
