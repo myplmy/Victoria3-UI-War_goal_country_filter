@@ -15,3 +15,21 @@ uboy_wg_clear_filter = {
         remove_variable = uboy_wg_filter_country
     }
 }
+
+uboy_sway_set_filter = {
+    scope = player
+    saved_scopes = { country }
+    effect = {
+        set_variable = {
+            name = uboy_sway_filter_country
+            value = scope:country
+        }
+    }
+}
+
+uboy_sway_clear_filter = {
+    scope = player
+    effect = {
+        remove_variable = uboy_sway_filter_country
+    }
+}

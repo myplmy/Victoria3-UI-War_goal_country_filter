@@ -1,3 +1,7 @@
+### Uboy.Ui-wargoal_country_filter
+using uboy_wargoal_country_filter.gui
+### Uboy.Ui-wargoal_country_filter
+
 types sway_country_types
 {
 	type sway_country_panel = default_block_window {
@@ -11,6 +15,10 @@ types sway_country_types
 			back_button_large = {
 				position = { 8 30 }
 				onclick = "[SwayCountryPanel.DecreaseFilterLevel]"
+				### uboy_sway_country_filter
+				onclick = "[GetVariableSystem.Clear('uboy_show_sway_country_filters')]"
+				onclick = "[GetScriptedGui('uboy_sway_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				### uboy_sway_country_filter end
 				input_action = "back"
 				visible = "[Not(SwayCountryPanel.IsShowingSwayOfferTypes)]"
 			}
@@ -40,6 +48,7 @@ types sway_country_types
 					}
 				}
 
+
 				dynamicgridbox = {
 					name = "wargoal_type_selection_list"
 					visible = "[SwayCountryPanel.IsShowingSwayOfferWarGoalTypes]"
@@ -50,6 +59,11 @@ types sway_country_types
 					}
 				}
 
+                ### uboy_sway_country_filter
+                uboy_sway_country_filter = {}
+                ### uboy_sway_country_filter end
+
+
 				dynamicgridbox = {
 					name = "offer_wargoal_selection_list"
 					visible = "[SwayCountryPanel.IsShowingSwayOffers]"
@@ -57,8 +71,18 @@ types sway_country_types
 
 					item = {
 						container = {
+
 							sway_offer_item = {
-								visible = "[SwayOffer.RequiresAnyInput]"
+								### uboy_sway_country_filter MODIFIED
+								#visible = "[SwayOffer.RequiresAnyInput]"
+								visible = "[And(
+									SwayOffer.RequiresAnyInput,
+									Or(
+										Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
+										ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
+									)
+								)]"
+								### uboy_sway_country_filter END
 								onclick = "[RightClickMenuManager.ToggleSwayOfferArticleTypeInput(SwayOffer.Self, PdxGuiWidget.AccessSelf, 'article_input_right_click_menu_right')]"
 
 								blockoverride "maneuvers_and_infamy" {}
@@ -79,19 +103,49 @@ types sway_country_types
 							}
 
 							sway_offer_item = {
-								visible = "[And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) )]"
+								### uboy_sway_country_filter MODIFIED
+								#visible = "[And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) )]"
+								visible = "[And3(
+									And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) ),
+									Or(
+										Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
+										ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
+									),
+									IsValid(SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))
+								)]"
+								### uboy_sway_country_filter END
 								onclick = "[Execute( SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))]"
 								onclick = "[InformationPanelBar.OpenDiplomaticPlayPanel( DiplomaticPlay.AccessSelf )]"
 							}
 
 							sway_offer_item = {
-								visible = "[And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) )]"
+								### uboy_sway_country_filter MODIFIED
+								#visible = "[And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) )]"
+								visible = "[And3(
+									And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ),
+									Or(
+										Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
+										ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
+									),
+									IsValid(SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))
+								)]"
+								### uboy_sway_country_filter END
 								onclick = "[PopupManager.AskConfirmation( SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))]"
 								onclick = "[InformationPanelBar.OpenDiplomaticPlayPanel( DiplomaticPlay.AccessSelf )]"
 							}
 
 							sway_offer_item = {
-								visible = "[And(Not(SwayOffer.RequiresAnyInput), DiplomaticPlay.IsBacker(GetPlayer))]"
+								### uboy_sway_country_filter MODIFIED
+								#visible = "[And(Not(SwayOffer.RequiresAnyInput), DiplomaticPlay.IsBacker(GetPlayer))]"
+								visible = "[And3(
+									And(Not(SwayOffer.RequiresAnyInput), DiplomaticPlay.IsBacker(GetPlayer)),
+									Or(
+										Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
+										ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
+									),
+									IsValid(SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))
+								)]"
+								### uboy_sway_country_filter END
 								onclick = "[PopupManager.AskConfirmation( SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))]"
 								onclick = "[InformationPanelBar.OpenDiplomaticPlayPanel( DiplomaticPlay.AccessSelf )]"
 							}
@@ -241,10 +295,11 @@ types sway_country_types
 				datacontext = "[SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry)]"
 				parentanchor = vcenter
 				position = { 10 0 }
-				
-				#tooltipwidget = {
-				#	FancyTooltip_Country = {}
-				#}
+				### Uboy.UI-War_goal_country_filter (FLAG_TOOLTIP)
+				tooltipwidget = {
+					FancyTooltip_Country = {}
+				}
+				### Uboy.UI-War_goal_country_filter (FLAG_TOOLTIP) END
 			}
 
 			flowcontainer = {
@@ -273,7 +328,7 @@ types sway_country_types
 				position = { 70 0 }
 				size = { 50 50 }
 				texture = "[SwayOffer.GetTexture]"
-			}
+				}
 
 			flowcontainer = {
 				position = { -10 0 }
@@ -343,6 +398,10 @@ types sway_country_types
 
 	type sway_offer_type_item = button {
 		onclick = "[SwayCountryPanel.SetSwayOfferType(SwayOfferType.Self)]"
+		### uboy_sway_country_filter
+		onclick = "[GetVariableSystem.Clear('uboy_show_sway_country_filters')]"
+		onclick = "[GetScriptedGui('uboy_sway_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+		### uboy_sway_country_filter end
 		using = default_button
 
 		container = {

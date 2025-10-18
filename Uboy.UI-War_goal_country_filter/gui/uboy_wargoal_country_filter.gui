@@ -307,3 +307,280 @@
         }
     }
 }
+
+
+types uboy_wargoal_sway_country_filter_types
+{
+    # Sway용 필터 컨테이너
+    type uboy_sway_country_filter = flowcontainer {
+        direction = vertical
+        spacing = 5
+        parentanchor = hcenter
+        visible = "[SwayCountryPanel.IsShowingSwayOffers]"
+
+    #### 디버깅: Sway 필터 상태 확인 (테스트 후 삭제 가능)
+    flowcontainer = {
+        direction = vertical
+        spacing = 2
+        parentanchor = hcenter
+        visible = "[SwayCountryPanel.IsShowingSwayOffers]"
+
+        textbox = {
+            visible = yes
+            raw_text = "DEBUG: IsShowingSwayOffers=[SwayCountryPanel.IsShowingSwayOffers]"
+            autoresize = yes
+            align = center|nobaseline
+            parentanchor = hcenter
+            default_format = "#weak"
+            margin_bottom = 5
+        }
+
+        textbox = {
+            visible = yes
+            raw_text = "DEBUG: show_sway_filters=[GetVariableSystem.Exists('uboy_show_sway_country_filters')]"
+            autoresize = yes
+            align = center|nobaseline
+            parentanchor = hcenter
+            default_format = "#weak"
+            margin_bottom = 5
+        }
+
+        textbox = {
+            visible = yes
+            raw_text = "DEBUG: Initiator=[SwayCountryPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)] Target=[SwayCountryPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+            autoresize = yes
+            align = center|nobaseline
+            parentanchor = hcenter
+            default_format = "#weak"
+            margin_bottom = 5
+        }
+
+        textbox = {
+            visible = yes
+            raw_text = "DEBUG: TargetSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessTargetSideCountries)] InitiatorSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries)]"
+            autoresize = yes
+            align = center|nobaseline
+            parentanchor = hcenter
+            default_format = "#weak"
+            margin_bottom = 5
+        }
+
+        textbox = {
+            visible = yes
+            raw_text = "DEBUG: sway_filter_country_set=[GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet]"
+            autoresize = yes
+            align = center|nobaseline
+            parentanchor = hcenter
+            default_format = "#weak"
+            margin_bottom = 5
+        }
+    }
+    #### 디버깅: Sway 필터 상태 확인 (테스트 후 삭제 가능) 끝
+
+
+
+        # 필터 버튼 그룹
+        flowcontainer = {
+            direction = horizontal
+            spacing = 10
+            margin_top = 5
+            margin_bottom = 5
+            parentanchor = hcenter
+            
+            # 메인 필터 토글 버튼
+            button = {
+                size = { 150 50 }
+                using = default_button
+                onclick = "[GetVariableSystem.Toggle('uboy_show_sway_country_filters')]"
+                down = "[GetVariableSystem.Exists('uboy_show_sway_country_filters')]"
+                tooltip = "UBOY_TOGGLE_COUNTRY_FILTER_TOOLTIP"
+                
+                textbox = {
+                    text = "UBOY_FILTER_BY_COUNTRY"
+                    autoresize = yes
+                    align = center|nobaseline
+                    parentanchor = center
+                    default_format = "#high"
+                }
+                
+                background = {
+                    visible = "[GetVariableSystem.Exists('uboy_show_sway_country_filters')]"
+                    using = entry_bg
+                }
+            }
+            
+            # Clear 필터 버튼
+            button = {
+                visible = "[GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet]"
+                size = { 80 50 }
+                using = default_button
+                onclick = "[GetScriptedGui('uboy_sway_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+                tooltip = "UBOY_CLEAR_COUNTRY_FILTER"
+                
+                textbox = {
+                    text = "UBOY_CLEAR_FILTER"
+                    autoresize = yes
+                    align = center|nobaseline
+                    parentanchor = center
+                    default_format = "#high"
+                }
+            }
+        }
+        
+        # 필터 상태 표시 (선택된 국가)
+        flowcontainer = {
+            visible = "[GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet]"
+            direction = horizontal
+            spacing = 5
+            parentanchor = hcenter
+            margin = { 5 5 }
+            
+            textbox = {
+                text = "UBOY_FILTERING_BY"
+                autoresize = yes
+                align = left|nobaseline
+                parentanchor = vcenter
+                default_format = "#variable"
+            }
+            
+            textbox = {
+                raw_text = "[GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.GetName]"
+                autoresize = yes
+                align = left|nobaseline
+                parentanchor = vcenter
+                maximumsize = { 200 -1 }
+                elide = right
+            }
+        }
+        
+        # 국기 그리드 컨테이너 (필터 버튼 클릭 시 표시)
+        flowcontainer = {
+            visible = "[And(GetVariableSystem.Exists('uboy_show_sway_country_filters'), SwayCountryPanel.IsShowingSwayOffers)]"
+            direction = vertical
+            spacing = 5
+            parentanchor = hcenter
+            margin = { 10 10 }
+            margin_bottom = 20
+            
+            background = {
+                using = default_background
+                margin = { 5 5 }
+                margin_left = 10
+            }
+            
+            # 헤더
+            textbox = {
+                text = "UBOY_SELECT_COUNTRY_HEADER"
+                autoresize = yes
+                align = center|nobaseline
+                parentanchor = hcenter
+                default_format = "#title"
+                margin_bottom = 5
+            }
+            
+            # 지지 제안 대상이 타겟 측일 때 - 타겟 측 국가 표시
+            dynamicgridbox = {
+                visible = "[SwayCountryPanel.AccessDiplomaticPlay.IsTargetOrBacker(SwayCountryPanel.GetCountry)]"
+                datamodel = "[SwayCountryPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries]"
+                datamodel_wrap = 3
+                flipdirection = yes
+                
+                item = {
+                    uboy_sway_country_filter_grid_button = {
+                        visible = "[SwayCountryPanel.AccessDiplomaticPlay.IsTargetOrBacker(SwayCountryPanel.GetCountry)]"
+                    }
+                }
+            }
+
+            # 지지 제안 대상이 개시자 측일 때 - 개시자 측 국가 표시
+            dynamicgridbox = {
+                visible = "[SwayCountryPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(SwayCountryPanel.GetCountry)]"
+                datamodel = "[SwayCountryPanel.AccessDiplomaticPlay.AccessTargetSideCountries]"
+                datamodel_wrap = 3
+                flipdirection = yes
+                
+                item = {
+                    uboy_sway_country_filter_grid_button = {
+                        visible = "[SwayCountryPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(SwayCountryPanel.GetCountry)]"
+                    }
+                }
+            }
+
+        }
+    }
+
+    # Sway 필터용 버튼
+    type uboy_sway_country_filter_grid_button = button {
+        size = { 170 40 }
+        using = default_button
+        
+        onclick = "[GetScriptedGui('uboy_sway_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
+        
+        # 선택된 국가 강조
+        down = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)]"
+        
+        tooltipwidget = {
+            FancyTooltip_Country = {}
+        }
+        
+        onmousehierarchyenter = "[AccessHighlightManager.HighlightCountry(Country.Self)]"
+        onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+        
+        textbox = {
+            raw_text = "[Country.GetName]"
+            autoresize = yes
+            align = left|nobaseline
+            parentanchor = vcenter
+            minimumsize = { 160 -1 }
+            maximumsize = { 160 -1 }
+            elide = right
+            margin_left = 10
+        }
+    }
+
+    # Sway 필터용 국기 버튼 (필요시 사용)
+    type uboy_sway_country_filter_flag = button {
+        size = { 32 24 }
+        using = default_button
+        
+        onclick = "[GetScriptedGui('uboy_sway_set_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('country', Country.MakeScope).End)]"
+        
+        # 선택된 국가 강조
+        down = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)]"
+        
+        tooltipwidget = {
+            FancyTooltip_Country = {}
+        }
+        
+        onmousehierarchyenter = "[AccessHighlightManager.HighlightCountry(Country.Self)]"
+        onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+        
+        # 국기 아이콘
+        icon = {
+            size = { 27 18 }
+            texture = "[Country.GetFlag.GetSmallFlagTexture]"
+            frame = "[Country.GetFlag.GetSmallFlagFrame]"
+            framesize = "[GetSmallFlagFrameSize]"
+            parentanchor = center
+            using = flag_overlay
+            
+            # 국력 프레임
+            icon = {
+                name = frame
+                texture = "gfx/interface/flag/flag_power_tiny.dds"
+                size = { 33 24 }
+                framesize = { 66 48 }
+                frame = "[Country.GetRankIconIndex]"
+                alwaystransparent = yes
+                parentanchor = center
+            }
+        }
+        
+        # 선택된 국가 배경
+        background = {
+            visible = "[ObjectsEqual(Country.MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)]"
+            using = entry_bg
+            margin = { -2 -2 }
+        }
+    }
+}
