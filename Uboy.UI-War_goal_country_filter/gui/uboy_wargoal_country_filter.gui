@@ -319,62 +319,62 @@ types uboy_wargoal_sway_country_filter_types
         visible = "[SwayCountryPanel.IsShowingSwayOffers]"
 
     #### 디버깅: Sway 필터 상태 확인 (테스트 후 삭제 가능)
-    flowcontainer = {
-        direction = vertical
-        spacing = 2
-        parentanchor = hcenter
-        visible = "[SwayCountryPanel.IsShowingSwayOffers]"
-
-        textbox = {
-            visible = yes
-            raw_text = "DEBUG: IsShowingSwayOffers=[SwayCountryPanel.IsShowingSwayOffers]"
-            autoresize = yes
-            align = center|nobaseline
-            parentanchor = hcenter
-            default_format = "#weak"
-            margin_bottom = 5
-        }
-
-        textbox = {
-            visible = yes
-            raw_text = "DEBUG: show_sway_filters=[GetVariableSystem.Exists('uboy_show_sway_country_filters')]"
-            autoresize = yes
-            align = center|nobaseline
-            parentanchor = hcenter
-            default_format = "#weak"
-            margin_bottom = 5
-        }
-
-        textbox = {
-            visible = yes
-            raw_text = "DEBUG: Initiator=[SwayCountryPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)] Target=[SwayCountryPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
-            autoresize = yes
-            align = center|nobaseline
-            parentanchor = hcenter
-            default_format = "#weak"
-            margin_bottom = 5
-        }
-
-        textbox = {
-            visible = yes
-            raw_text = "DEBUG: TargetSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessTargetSideCountries)] InitiatorSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries)]"
-            autoresize = yes
-            align = center|nobaseline
-            parentanchor = hcenter
-            default_format = "#weak"
-            margin_bottom = 5
-        }
-
-        textbox = {
-            visible = yes
-            raw_text = "DEBUG: sway_filter_country_set=[GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet]"
-            autoresize = yes
-            align = center|nobaseline
-            parentanchor = hcenter
-            default_format = "#weak"
-            margin_bottom = 5
-        }
-    }
+    #flowcontainer = {
+    #    direction = vertical
+    #    spacing = 2
+    #    parentanchor = hcenter
+    #    visible = "[SwayCountryPanel.IsShowingSwayOffers]"
+    #
+    #    textbox = {
+    #        visible = yes
+    #        raw_text = "DEBUG: IsShowingSwayOffers=[SwayCountryPanel.IsShowingSwayOffers]"
+    #        autoresize = yes
+    #        align = center|nobaseline
+    #        parentanchor = hcenter
+    #        default_format = "#weak"
+    #        margin_bottom = 5
+    #    }
+    #
+    #    textbox = {
+    #        visible = yes
+    #        raw_text = "DEBUG: show_sway_filters=[GetVariableSystem.Exists('uboy_show_sway_country_filters')]"
+    #        autoresize = yes
+    #        align = center|nobaseline
+    #        parentanchor = hcenter
+    #        default_format = "#weak"
+    #        margin_bottom = 5
+    #    }
+    #
+    #    textbox = {
+    #        visible = yes
+    #        raw_text = "DEBUG: Initiator=[SwayCountryPanel.AccessDiplomaticPlay.IsInitiatorOrBacker(GetPlayer)] Target=[SwayCountryPanel.AccessDiplomaticPlay.IsTargetOrBacker(GetPlayer)]"
+    #        autoresize = yes
+    #        align = center|nobaseline
+    #        parentanchor = hcenter
+    #        default_format = "#weak"
+    #        margin_bottom = 5
+    #    }
+        #
+    #    textbox = {
+    #        visible = yes
+    #        raw_text = "DEBUG: TargetSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessTargetSideCountries)] InitiatorSide=[DataModelHasItems(SwayCountryPanel.AccessDiplomaticPlay.AccessInitiatorSideCountries)]"
+    #        autoresize = yes
+    #        align = center|nobaseline
+    #        parentanchor = hcenter
+    #        default_format = "#weak"
+    #        margin_bottom = 5
+    #    }
+    #
+    #    textbox = {
+    #        visible = yes
+    #        raw_text = "DEBUG: sway_filter_country_set=[GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet]"
+    #        autoresize = yes
+    #        align = center|nobaseline
+    #        parentanchor = hcenter
+    #        default_format = "#weak"
+    #        margin_bottom = 5
+    #    }
+    #}
     #### 디버깅: Sway 필터 상태 확인 (테스트 후 삭제 가능) 끝
 
 
