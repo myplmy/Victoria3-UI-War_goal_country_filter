@@ -261,7 +261,7 @@
         }
     }
 
-    # 필터용 국기 버튼
+    # 필터용 국기 버튼 (미사용)
     type uboy_country_filter_flag = button {
         size = { 32 24 }
         using = default_button
@@ -538,7 +538,7 @@ types uboy_wargoal_sway_country_filter_types
         }
     }
 
-    # Sway 필터용 국기 버튼 (필요시 사용)
+    # Sway 필터용 국기 버튼 (미사용)
     type uboy_sway_country_filter_flag = button {
         size = { 32 24 }
         using = default_button
