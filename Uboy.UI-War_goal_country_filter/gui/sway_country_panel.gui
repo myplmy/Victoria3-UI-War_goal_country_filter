@@ -105,14 +105,23 @@ types sway_country_types
 							sway_offer_item = {
 								### uboy_sway_country_filter MODIFIED
 								#visible = "[And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) )]"
-								visible = "[And3(
+                                # filter condition 1.2.1
+								visible = "[And(
 									And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) ),
 									Or(
 										Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
 										ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
-									),
-									IsValid(SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))
+									)
 								)]"
+                                ## filter condition 1.2.0
+                                #visible = "[And3(
+								#	And( Not( SwayOffer.RequiresAnyInput ), And(Or( DiplomaticPlay.IsPrimaryParticipant(GetPlayer), DiplomaticPlay.IsUndecidedParticipant(GetPlayer) ), Not( GetPlayer.HasAnyAllianceLikeTreatiesWith(SwayCountryPanel.GetOtherCountry.Self) ) ) ),
+								#	Or(
+								#		Not(GetPlayer.MakeScope.Var('uboy_sway_filter_country').IsSet),
+								#		ObjectsEqual(SwayOffer.GetCountryForFlag(SwayCountryPanel.GetCountry).MakeScope, GetPlayer.MakeScope.Var('uboy_sway_filter_country').GetCountry.MakeScope)
+								#	),
+								#	IsValid(SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))
+								#)]"
 								### uboy_sway_country_filter END
 								onclick = "[Execute( SwayCountryPanel.AccessDiplomaticPlay.CreateSway( GetPlayer.Self, SwayCountryPanel.GetCountry, SwayOffer.Self ))]"
 								onclick = "[InformationPanelBar.OpenDiplomaticPlayPanel( DiplomaticPlay.AccessSelf )]"
