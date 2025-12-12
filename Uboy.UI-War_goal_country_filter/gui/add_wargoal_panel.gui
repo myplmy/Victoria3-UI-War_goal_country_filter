@@ -38,7 +38,7 @@
                 ### uboy_wargoal_country_filter end
 
 				dynamicgridbox = {
-					name = "wargoal_selection_list"
+					name = "war_goal_selection_list"
 					visible = "[AddWarGoalPanel.HasSelectedWarGoalType]"
 					datamodel = "[AddWarGoalPanel.AccessShownWarGoals]"
 
@@ -49,84 +49,58 @@
 							### NORMAL WAR GOAL
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
-								#visible = "[Not(WarGoal.HoldsArticle)]"
-                                # filter condition 1.2.1
+								#visible = "[Not(WarGoalDraft.HoldsArticle)]"
                                 visible = "[And(
-                                    Not(WarGoal.HoldsArticle),
+                                    Not(WarGoalDraft.HoldsArticle),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                         Or(
-                                            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                            ObjectsEqual(WarGoalDraft.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                            ObjectsEqual(WarGoalDraft.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
                                         )
                                     )
                                 )]"
-                                # filter condition 1.2.0
-                                #visible = "[And3(
-                                #    Not(WarGoal.HoldsArticle),
-                                #    Or(
-                                #        Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                #        Or(
-                                #            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                #            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                #        )
-                                #    ),
-                                #    IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
-                                #)]"
                                 ### uboy_wargoal_country_filter END
 							}
 
 							### ARTICLE TYPE - NO INPUT
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
-								#visible = "[And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput))]"
-                                # filter condition 1.2.1
+								#visible = "[And(WarGoalDraft.HoldsArticle, Not(WarGoalDraft.GetArticleType.RequiresAnyInput))]"
                                 visible = "[And(
-                                    And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput)),
+                                    And(WarGoalDraft.HoldsArticle, Not(WarGoalDraft.GetArticleType.RequiresAnyInput)),
                                     Or(
                                         Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                         Or(
-                                            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                            ObjectsEqual(WarGoalDraft.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                            ObjectsEqual(WarGoalDraft.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
                                         )
                                     )
                                 )]"
-                                # filter condition 1.2.0
-                                #visible = "[And3(
-                                #    And(WarGoal.HoldsArticle, Not(WarGoal.GetArticleType.RequiresAnyInput)),
-                                #    Or(
-                                #        Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                #        Or(
-                                #            ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                #            ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                #        )
-                                #    ),
-                                #    IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
-                                #)]"
                                 ### uboy_wargoal_country_filter END
 
 								### Overriding tooltip to add the AticleDraft EffectsDesc for no-input Articles
 								blockoverride "war_goal_tooltip" {
 									tooltipwidget = {
-										RegularTooltip_WarGoal = {
+										FancyTooltip_WarGoalDraft = {
 											blockoverride "can_add_text" {
 												custom_tooltip_textbox = {
-													visible = "[Not(StringIsEmpty(AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoal.Self )))]"
+													visible = "[Not(StringIsEmpty(AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoalDraft.Self )))]"
 													max_width = 450
-													text = "[AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoal.Self )]"
+													text = "[AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoalDraft.Self )]"
 												}
 											}
 
 											blockoverride "infamy" {
 												custom_tooltip_textbox = {
-													visible = "[GreaterThan_CFixedPoint(WarGoal.GetInfamyAmount, '(CFixedPoint)0')]"
-													text = "[WarGoal.GetInfamyDesc]"
+													visible = "[GreaterThan_CFixedPoint(WarGoalDraft.GetInfamyAmount, '(CFixedPoint)0')]"
+													text = "[WarGoalDraft.GetInfamyDesc]"
 												}
 											}
 
 											blockoverride "maneuver_cost" {
 												custom_tooltip_textbox_with_empty_line = {
-													text = "[WarGoal.GetManeuversCostToAddDesc]"
+													text = "[WarGoalDraft.GetManeuversCostToAddDesc]"
 												}
 											}
 
@@ -137,7 +111,7 @@
 											blockoverride "war_goal_desc" {
 												custom_tooltip_textbox = {
 													margin_left = 10
-													text = "[WarGoal.GetArticleDraft.GetEffectsDesc]"
+													text = "[WarGoalDraft.GetArticleDraft.GetEffectsDesc]"
 												}
 											}
 										}
@@ -148,31 +122,17 @@
 							### ARTICLE TYPE - NEEDS INPUT
 							add_wargoal_item = {
                                 ### uboy_wargoal_country_filter MODIFIED
-								#visible = "[And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput)]"
-                                # filter condition 1.2.1
+								#visible = "[And(WarGoalDraft.HoldsArticle, WarGoalDraft.GetArticleType.RequiresAnyInput)]"
                                 visible = "[And(
-                                        And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput),
+                                        And(WarGoalDraft.HoldsArticle, WarGoalDraft.GetArticleType.RequiresAnyInput),
                                         Or(
                                             Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
                                             Or(
-                                                ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                                ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
+                                                ObjectsEqual(WarGoalDraft.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
+                                                ObjectsEqual(WarGoalDraft.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
                                             )
                                         )
                                     )]"
-
-                                # filter condition 1.2.0
-                                #visible = "[And3(
-                                #        And(WarGoal.HoldsArticle, WarGoal.GetArticleType.RequiresAnyInput),
-                                #        Or(
-                                #            Not(GetPlayer.MakeScope.Var('uboy_wg_filter_country').IsSet),
-                                #            Or(
-                                #                ObjectsEqual(WarGoal.GetHolder.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope),
-                                #                ObjectsEqual(WarGoal.GetTarget.MakeScope, GetPlayer.MakeScope.Var('uboy_wg_filter_country').GetCountry.MakeScope)
-                                #            )
-                                #        ),
-                                #        IsValid(AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal(WarGoal.Self))
-                                #    )]"
                                 ### uboy_wargoal_country_filter END
 
 								blockoverride "war_goal_tooltip" {
@@ -187,7 +147,7 @@
 
 								blockoverride "onclick_properties" {
 									onclick = "[RightClickMenuManager.Close]"
-									onclick = "[RightClickMenuManager.ToggleWarGoalArticleTypeInput(WarGoal.Self, PdxGuiWidget.AccessSelf, 'article_input_right_click_menu_right')]"
+									onclick = "[RightClickMenuManager.ToggleWarGoalArticleTypeInput(WarGoalDraft.Self, PdxGuiWidget.AccessSelf, 'article_input_right_click_menu_right')]"
 								}
 							}
 						}
@@ -263,7 +223,7 @@
 
 		block "war_goal_tooltip" {
 			tooltipwidget = {
-				RegularTooltip_WarGoal = {}
+				FancyTooltip_WarGoal = {}
 			}
 		}
 
@@ -329,7 +289,7 @@
 					align = hcenter|nobaseline
 					multiline = yes
 					autoresize = yes
-					text = "[WarGoal.GetName]"
+					text = "[WarGoal.GetNameNoIcon]"
 				}
 			}
 		}
@@ -397,7 +357,7 @@
 					align = hcenter|nobaseline
 					multiline = yes
 					autoresize = yes
-					text = "[WarGoal.GetName]"
+					text = "[WarGoal.GetNameNoIcon]"
 				}
 			}
 		}
@@ -418,7 +378,7 @@
 
 		block "war_goal_tooltip" {
 			tooltipwidget = {
-				RegularTooltip_WarGoal = {}
+				FancyTooltip_WarGoal = {}
 			}
 		}
 
@@ -449,7 +409,7 @@
 			autoresize = yes
 			minimumsize = { 150 -1 }
 			maximumsize = { 150 -1 }
-			raw_text = "#BOLD [WarGoal.GetName]#!"
+			raw_text = "#BOLD [WarGoal.GetNameNoIcon]#!"
 			align = center|nobaseline
 			parentanchor = hcenter
 		}
@@ -464,32 +424,18 @@
 	### ADD WARGOAL
 	type add_wargoal_item = button {
 		using = add_war_goal_button_sound
-		onmousehierarchyenter = "[WarGoal.ShowHighlight]"
+		onmousehierarchyenter = "[WarGoalDraft.ShowHighlight]"
 		onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 		alwaystransparent = no
 
 		block "war_goal_tooltip" {
 			tooltipwidget = {
-				RegularTooltip_WarGoal = {
+				FancyTooltip_WarGoalDraft = {
 					blockoverride "can_add_text" {
 						custom_tooltip_textbox = {
-							visible = "[Not(StringIsEmpty(AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoal.Self )))]"
+							visible = "[Not(StringIsEmpty(AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoalDraft.Self )))]"
 							max_width = 450
-							text = "[AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoal.Self )]"
-						}
-					}
-
-					blockoverride "infamy" {
-						custom_tooltip_textbox = {
-							visible = "[GreaterThan_CFixedPoint(WarGoal.GetInfamyAmount, '(CFixedPoint)0')]"
-							text = "[WarGoal.GetInfamyDesc]"
-						}
-					}
-
-					blockoverride "maneuver_cost" {
-						custom_tooltip_textbox_with_empty_line = {
-							tooltip = "ADD_WARGOAL_MANEUVERS_COST_TOOLTIP"
-							text = "ADD_WARGOAL_MANEUVERS_COST_WITH_LABEL"
+							text = "[AddWarGoalPanel.GetDiplomaticPlay.GetCanAddWarGoalDesc( WarGoalDraft.Self )]"
 						}
 					}
 
@@ -505,9 +451,9 @@
 		}
 
 		block "onclick_properties" {
-			onclick = "[Execute( AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal( WarGoal.Self ) )]"
+			onclick = "[Execute( AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal( WarGoalDraft.Self ) )]"
 			onclick = "[InformationPanelBar.OpenPreviousPanel]"
-			enabled = "[IsValid( AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal( WarGoal.Self ) )]"
+			enabled = "[IsValid( AddWarGoalPanel.AccessDiplomaticPlay.AddWarGoal( WarGoalDraft.Self ) )]"
 		}
 
 		container = {
@@ -515,33 +461,33 @@
 			minimumsize = { 550 60 }
 
 			small_flag = {
-				visible = "[WarGoal.HoldsArticle]"
+				visible = "[WarGoalDraft.HoldsArticle]"
 				position = { 10 0 }
-				datacontext = "[WarGoal.GetTarget]"
+				datacontext = "[WarGoalDraft.GetTarget]"
 				parentanchor = vcenter
 			}
 
 			small_flag = {
-				visible = "[Not(WarGoal.HoldsArticle)]"
+				visible = "[Not(WarGoalDraft.HoldsArticle)]"
 				position = { 10 0 }
-				datacontext = "[WarGoal.GetHolder]"
+				datacontext = "[WarGoalDraft.GetHolder]"
 				parentanchor = vcenter
 			}
 
 			icon = {
-				visible = "[WarGoal.HoldsArticle]"
+				visible = "[WarGoalDraft.HoldsArticle]"
 				size = { 50 50 }
 				parentanchor = vcenter
 				position = { 70 0 }
-				texture = "[WarGoal.GetArticleType.GetIcon]"
+				texture = "[WarGoalDraft.GetArticleType.GetIcon]"
 			}
 
 			icon = {
-				visible = "[Not(WarGoal.HoldsArticle)]"
+				visible = "[Not(WarGoalDraft.HoldsArticle)]"
 				size = { 50 50 }
 				parentanchor = vcenter
 				position = { 70 0 }
-				texture = "[WarGoal.GetTexture]"
+				texture = "[WarGoalDraft.GetTexture]"
 			}
 
 			flowcontainer = {
@@ -555,7 +501,7 @@
 						parentanchor = vcenter
 
 						textbox = {
-							visible = "[GreaterThan_CFixedPoint(WarGoal.GetInfamyAmount, '(CFixedPoint)0')]"
+							visible = "[GreaterThan_CFixedPoint(WarGoalDraft.GetInfamyAmount, '(CFixedPoint)0')]"
 							using = fontsize_large
 							autoresize = yes
 							maximumsize = { 100 -1 }
@@ -563,7 +509,7 @@
 							multiline = yes
 							parentanchor = vcenter
 							align = right|nobaseline
-							text = "WARGOAL_INFAMY"
+							text = "WAR_GOAL_DRAFT_INFAMY"
 						}
 
 						textbox = {
@@ -581,19 +527,19 @@
 				}
 
 				flag_icon = {
-					visible = "[WarGoal.HasCountryCreation]"
+					visible = "[WarGoalDraft.HasCountryCreation]"
 					size = { 48 32 }
 					framesize = "[GetSmallFlagFrameSize]"
 					parentanchor = vcenter
-					onmousehierarchyenter = "[AccessHighlightManager.HighlightCountryFormation(WarGoal.GetCountryCreation.Self)]"
+					onmousehierarchyenter = "[AccessHighlightManager.HighlightCountryFormation(WarGoalDraft.GetCountryCreation.Self)]"
 					onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 					alwaystransparent = no
 
 					blockoverride "flag_tooltip" {}
 
 					block "flag_definition" {
-						texture = "[WarGoal.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagTexture]"
-						frame = "[WarGoal.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagFrame]"
+						texture = "[WarGoalDraft.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagTexture]"
+						frame = "[WarGoalDraft.GetCountryCreation.GetDefinition.GetFlag('release').GetSmallFlagFrame]"
 					}
 				}
 			}
@@ -608,20 +554,23 @@
 				maximumsize = { 260 -1 }
 				autoresize = yes
 				multiline = yes
-				text = "[WarGoal.GetName]"
+				text = "[WarGoalDraft.GetNameNoFormatting]"
 			}
 		}
 	}
 
 	### ADD WARGOAL TYPE
 	type add_wargoal_type_item = button {
-        onclick = "[AddWarGoalPanel.SetSelectedWarGoalType(WarGoalType.Self)]"
-        ### uboy_wargoal_country_filter
-        onclick = "[GetVariableSystem.Clear('uboy_show_country_filters')]"  # 이 줄 추가
-        onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"  # 이 줄 추가
-        ### uboy_wargoal_country_filter end
-        tooltip = "[WarGoalType.GetDesc]"
+		onclick = "[AddWarGoalPanel.SetSelectedWarGoalType(WarGoalType.Self)]"
 		using = default_button
+        ### uboy_wargoal_country_filter
+        onclick = "[GetVariableSystem.Clear('uboy_show_country_filters')]"
+        onclick = "[GetScriptedGui('uboy_wg_clear_filter').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+        ### uboy_wargoal_country_filter end
+
+		tooltipwidget = {
+			FancyTooltip_WarGoalType = {}
+		}
 
 		container = {
 			resizeparent = yes
@@ -640,7 +589,7 @@
 				using = fontsize_large
 				parentanchor = left|vcenter
 				align = left|nobaseline
-				text = "[WarGoalType.GetName]"
+				text = "[WarGoalType.GetNameNoFormatting]"
 				autoresize = yes
 				maximumsize = { 440 -1 }
 				multiline = yes
