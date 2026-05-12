@@ -1,8 +1,8 @@
 {
   "name" : "Uboy.UI-War goal country filter",
   "id" : "uboy.ui.wargoalcountryfilter",
-  "version" : "1.2.2",
-  "supported_game_version" : "1.12.*",
+  "version" : "1.2.3",
+  "supported_game_version" : "1.13.*",
   "picture": "thumbnail.png",
   "short_description" : "Adds a country-based filter when setting war goals.",
   "tags" : ["Utilities", "UI"],
